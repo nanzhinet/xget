@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+npm-debug.log
+
+# Build outputs
+dist/
+.wrangler/
+wrangler-dist/
+
+# Tests
+test/
+coverage/
+*.test.js
+
+# Documentation
+*.md
+docs/
+.github/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CI/CD
+.github/workflows/
+
+# Config files not needed in build
+.prettierrc
+.prettierignore
+.eslintrc*
+tsconfig.json
+vitest.config.js
+
+# Misc
+*.log
+.env
+.env.*

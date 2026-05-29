@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Read the README
+    url: https://github.com/xixu-me/Xget/blob/main/README.md
+    about: Check supported platforms, usage examples, and deployment options first.
+  - name: Contributing Guide
+    url: https://github.com/xixu-me/Xget/blob/main/CONTRIBUTING.md
+    about: Learn how to prepare a bug report or pull request.
+  - name: Maintainer contact page
+    url: https://xi-xu.me/#contact
+    about: Use a private contact path for sensitive or non-public matters.

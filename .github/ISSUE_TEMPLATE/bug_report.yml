@@ -1,0 +1,67 @@
+name: Bug report
+description: Report a reproducible problem in Xget
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+        Please search existing issues before filing a new one. If this is a security
+        vulnerability, do not continue here. Follow the private reporting instructions
+        in [SECURITY.md](https://github.com/xixu-me/Xget/blob/main/SECURITY.md).
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the problem and the actual behavior you observed.
+      placeholder: A request to /npm/... returns the wrong upstream path when...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+      placeholder: The request should be rewritten to...
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area is affected?
+      options:
+        - Routing or path transformation
+        - Git protocol
+        - Docker or OCI registry support
+        - AI inference proxying
+        - Cache behavior
+        - Security headers or validation
+        - Deployment or adapter behavior
+        - Documentation
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Share a minimal reproduction with secrets removed.
+      placeholder: |
+        1. Send request to...
+        2. Use headers...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include runtime, deployment target, client, and version details when relevant.
+      placeholder: Cloudflare Workers, local wrangler dev, curl 8.8.0, Node.js 24...
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Logs, headers, screenshots, or links that help explain the issue.

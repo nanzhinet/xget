@@ -1,0 +1,46 @@
+name: Feature request
+description: Propose an improvement or new capability for Xget
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing an idea.
+
+        Please keep requests focused and explain the user or maintainer value clearly.
+        For large changes, starting with an issue before implementation is strongly preferred.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the user need, operational pain point, or workflow gap.
+      placeholder: Users of platform X cannot...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What change would you like to see?
+      description: Describe the proposed behavior or feature.
+      placeholder: Add support for...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe any workarounds or alternative approaches you evaluated.
+  - type: textarea
+    id: impact
+    attributes:
+      label: Why is this valuable?
+      description: Explain who benefits and why the change fits Xget's goals.
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add links, examples, or prior art if helpful.
