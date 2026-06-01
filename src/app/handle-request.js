@@ -36,6 +36,27 @@ export async function handleRequest(request, env, ctx) {
   const requestContext = createRequestContext(request, env);
   const { config, isCorsPreflight, isDocker, url } = requestContext;
 
+  // Token authentication: if ACCESS_TOKEN is set in env, validate the request token.
+  // Clients must pass the token via the `token` URL query parameter.
+  // Example: https://your-worker.dev/gh/owner/repo/file.txt?token=YOUR_TOKEN
+  const accessToken =
+    env && typeof env === 'object' ? /** @type {Record<string, unknown>} */ (env).ACCESS_TOKEN : undefined;
+  if (accessToken && typeof accessToken === 'string' && accessToken.length > 0) {
+    // Allow CORS preflight to pass through without authentication so browsers
+    // can complete the preflight handshake before the actual credentialed request.
+    const isCorsPreflightCheck =
+      request.method === 'OPTIONS' &&
+      request.headers.has('Origin') &&
+      request.headers.has('Access-Control-Request-Method');
+
+    if (!isCorsPreflightCheck) {
+      const requestToken = url.searchParams.get('token');
+      if (!requestToken || requestToken !== accessToken) {
+        return createErrorResponse('Unauthorized: invalid or missing token', 401);
+      }
+    }
+  }
+
   try {
     if (isCorsPreflight) {
       const requestedMethod = request.headers.get('Access-Control-Request-Method') || '';
@@ -106,7 +127,26 @@ export async function handleRequest(request, env, ctx) {
               response = targetResponse;
             } else {
               const { cacheTargetUrl, platform, targetUrl } = resolvedTarget;
-              const authorization = request.headers.get('Authorization');
+
+              // If the request carries ?key=<value> matching GITHUB_TOKEN_KEY,
+              // inject the built-in GITHUB_TOKEN as the Authorization header so
+              // the caller benefits from a higher GitHub rate limit without ever
+              // seeing the token itself.
+              const envObj = /** @type {Record<string, unknown>} */ (
+                env && typeof env === 'object' ? env : {}
+              );
+              const tokenKey =
+                typeof envObj.GITHUB_TOKEN_KEY === 'string' ? envObj.GITHUB_TOKEN_KEY : null;
+              const githubToken =
+                typeof envObj.GITHUB_TOKEN === 'string' ? envObj.GITHUB_TOKEN : null;
+              const requestKey = url.searchParams.get('key');
+              const useBuiltinToken =
+                tokenKey && githubToken && requestKey !== null && requestKey === tokenKey;
+
+              const authorization = useBuiltinToken
+                ? `Bearer ${githubToken}`
+                : request.headers.get('Authorization');
+
               const hasSensitiveHeaders = Boolean(
                 authorization ||
                 request.headers.get('Cookie') ||
